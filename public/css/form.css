@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+*:focus{
+    outline: none;
+}
+
+body{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../img/landingpagebanground.jpeg');
+    background-size: cover;
+    background-position: center;
+    font-family: 'roboto', sans-serif;
+}
+
+.form{
+    width: 350px;
+    height: auto;
+    color: #fff;
+    font-family: 'roboto', sans-serif;
+}
+
+.heading{
+    opacity: 1;
+    text-transform: capitalize;
+    text-align:start;
+    font-size: 80px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    padding-left: center;
+}
+
+input,
+.submit-btn{
+    opacity: 1;
+    width: 80%;
+    height: 35px;
+    display: inline;
+    margin: 10px auto;
+    border-radius: 5px;
+    background: #fff;
+    border: none;
+    color: #ff7200;
+    padding: 15px;
+    transition: .5s;
+    text-transform: capitalize;
+}
+
+input::placeholder{
+    color: #ff7200;
+}
+
+input:focus,
+.submit-btn:hover{
+    background: #fff;
+    color: #000;
+}
+
+input:focus::placeholder{
+    color: #000;
+}
+.submit-btn{
+    width: auto;
+    padding: 0px 10px 0px;
+    cursor: pointer;
+    margin: 10px auto 0;
+    opacity: 1;
+   
+    
+}
+
+.link{
+    opacity: 1;
+    text-align: left;
+    text-transform: capitalize;
+    color: #ff7200;;
+    display: block;
+    margin: 10px auto;
+}
+
+.link:hover{
+    color: #000;
+}
+
+.alert-box{
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 150px;
+    max-width: 90%;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    text-transform: capitalize;
+    background: rgb(255, 119, 119);
+    border-top: 10px solid rgb(255, 37, 37);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #fff;
+    font-family: 'roboto', sans-serif;
+    text-align: center;
+    transition: 1s;
+}
