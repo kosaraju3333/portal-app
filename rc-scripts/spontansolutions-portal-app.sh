@@ -31,3 +31,5 @@ tar -xvf $working_dir/$source_code -C $working_dir
 ## Removing portal app artifactory
 echo "********** Deleting portal app artifactory ********** "
 rm -rf $working_dir/$source_code
+
+
