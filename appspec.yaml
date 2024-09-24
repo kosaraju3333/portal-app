@@ -1,0 +1,18 @@
+version: 0.0
+os: linux
+# files:
+#   - source: Config/config.txt
+#     destination: /webapps/Config
+#   - source: source
+#     destination: /webapps/myApp
+hooks:
+  AfterInstall:
+    - location: scripts/install-portal-app.sh
+      timeout: 180
+  ApplicationStart:
+    - location: scripts/start-portal.sh
+      timeout: 180
+  # ValidateService:
+  #   - location: Scripts/MonitorService.sh
+  #     timeout: 3600
+  #     runas: codedeployuser
