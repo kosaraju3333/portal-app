@@ -6,7 +6,7 @@ os: linux
 #   - source: source
 #     destination: /webapps/myApp
 hooks:
-  AfterInstall:
+  BeforeInstall:
     - location: scripts/install-portal-app.sh
       timeout: 180
   ApplicationStart:
