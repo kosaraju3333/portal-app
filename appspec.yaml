@@ -12,6 +12,7 @@ hooks:
   ApplicationStart:
     - location: scripts/start-portal.sh
       timeout: 180
+
   # ValidateService:
   #   - location: Scripts/MonitorService.sh
   #     timeout: 3600
