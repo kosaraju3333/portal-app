@@ -1,9 +1,4 @@
 #!/bin/bash
-
-sudo service portal-app restart
-
-
-#!/bin/bash
 set -e 
 
 sleep 5
