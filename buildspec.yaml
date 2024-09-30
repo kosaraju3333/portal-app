@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+  pre_build:
+    commands:
+      - echo "Downloading portal-app.js from s3"
+      - aws s3 cp s3://portal-app-spontansolutions/secrets/portal-app.js .
+  build:
+    commands:
+      - echo "Installing source NPM dependencies..."
+      - npm init -y
+      - npm i express.js body-parser knex pg nodemon
+  post_build:
+    commands:
+      - echo "Creating portal-app artifactory and publishing to AWS S3"
+      - tar -czf portal-app-CodeBuild-V0.1.tar.gz node_modules package.json public portal-app.js
+      - aws s3 cp portal-app-CodeBuild-V0.1.tar.gz s3://portal-app-spontansolutions
+      - echo "Pushed artidactory to AWS S3"
