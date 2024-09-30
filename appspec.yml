@@ -10,7 +10,7 @@ hooks:
     - location: scripts/install-portal-app.sh
       timeout: 180
   ApplicationStart:
-    - location: scripts/start-portal.sh
+    - location: scripts/start-portal-app.sh
       timeout: 180
 
   # ValidateService:
