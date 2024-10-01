@@ -9,7 +9,7 @@
 ## working directory
 working_dir=/home/ubuntu/portal-app
 
-source_code=portal-app-V0.1.tar.gz
+source_code=portal-app-CodeBuild-V0.1.tar.gz
 
 ### Creating /home/ubuntu/portal-spontansolutions directory if not present
 if [ -d "$working_dir" ];
