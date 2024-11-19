@@ -1,0 +1,25 @@
+services:
+  frontend:
+    image: kosaraju333/portal-app-frontend:V1
+    environment:
+      - HOST=db.spontansolutions.com
+      - PORT=5432
+      - USER=postgres
+      - PASSWORD=postgres
+      - DATABASE=spontan
+      - listen_PORT=3000
+    ports:
+      - 3000:3000
+    container_name: portal-app-frontend-Container
+
+  backend:
+    image: kosaraju333/portal-app-backend:V1
+    ports:
+      - 5432:5432
+    volumes:
+      - portal-app-db-volume:/var/lib/postgresql/data
+    container_name: portal-app-backend-Container
+
+volumes:
+  portal-app-db-volume:
+
