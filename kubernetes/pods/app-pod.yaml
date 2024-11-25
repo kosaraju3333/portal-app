@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: portal-app-frontend
+  labels:
+    app: portal-app-frontend
+spec:
+  containers:
+    - name: portal-app-frontend
+      image: kosaraju333/portal-app-frontend:V1
+      env: 
+        - name: HOST
+          value: "localhost"
+        - name: PORT
+          value: "5432"
+        - name: USER
+          value: "postgres"
+        - name: PASSWORD
+          value: "postgres"
+        - name: DATABASE
+          value: "spontan"
+        - name: listen_PORT
+          value: "3000"     
+      ports:
+        - containerPort: 3000
