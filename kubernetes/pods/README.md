@@ -12,17 +12,17 @@ PODs:
 
 
 - Pod Comands:
-	- kubectl apply -f pod.yaml --> To create a pod from YAML file
-	- kubectl get pods --> to list the pods
-	- kubectl get pods -l app=nginx(label_1), team=spontan(label_2) --> filter the pods with labels
-	- kubectl get pods -o wide --> To get more information of pod  (-o stands for output format)
-	- kubectl get pods -o yaml --> To get output information in YAML format (-o stands for output format)
-	- kubectl get pods --show-labels --> To show or get labels attached to pods
-	- kubectl describe pod pod_name --> To get a detail information of specific pod
-	- kubectl exec -it POD_NAME -- bash --> To log in to POD (If we have single container no need to mention container name)
-	- kubectl exec -it POD_NAME -c CONTAINER_NAME -- bash --> To log in to specific container in POD. (When we have 2 container inside the POD)
-	- kubectl port-forward nginx-pod1 9090(listening port):80(Container port) -->we can not access  pod directly form outside of the node using port forward we can access.
-	- kubectl logs POD_NAME --> Get application logs
-	- kubectl delete -f pod.yaml --> To delete the pods resources from YAML file 
-	- kubectl delete pod POD_NAME --> To delete the pod  
-	- kubectl port-forward POD-NAME 3001:3000 --> To access the application from outside 
+	- `kubectl apply -f pod.yaml` --> To create a pod from YAML file
+	- `kubectl get pods` --> to list the pods
+	- `kubectl get pods -l app=nginx(label_1), team=spontan(label_2)` --> filter the pods with labels
+	- `kubectl get pods -o wide` --> To get more information of pod  (-o stands for output format)
+	- `kubectl get pods -o yaml` --> To get output information in YAML format (-o stands for output format)
+	- `kubectl get pods --show-labels` --> To show or get labels attached to pods
+	- `kubectl describe pod pod_name` --> To get a detail information of specific pod
+	- `kubectl exec -it POD_NAME -- bash` --> To log in to POD (If we have single container no need to mention container name)
+	- `kubectl exec -it POD_NAME -c CONTAINER_NAME -- bash` --> To log in to specific container in POD. (When we have 2 container inside the POD)
+	- `kubectl port-forward nginx-pod1 9090(listening port):80(Container port)` -->we can not access  pod directly form outside of the node using port forward we can access.
+	- `kubectl logs POD_NAME` --> Get application logs
+	- `kubectl delete -f pod.yaml` --> To delete the pods resources from YAML file 
+	- `kubectl delete pod POD_NAME` --> To delete the pod  
+	- `kubectl port-forward POD-NAME 3001:3000` --> To access the application from outside 
