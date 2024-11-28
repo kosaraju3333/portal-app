@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgress-db-volume-pvc-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portal-app-database
+  template:
+    metadata:
+      labels:
+        app: portal-app-database
+    spec:
+      containers:
+        - name: portal-app-database-container
+          image: kosaraju333/portal-app-backend:V1
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-db
+      volumes:
+        - name: postgres-db
+          persistentVolumeClaim:
+            claimName: postgres-pvc
