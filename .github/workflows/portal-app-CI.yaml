@@ -33,6 +33,12 @@ jobs:
           cd app-Frontend
           tar -czf portal-spontan-github-action.tar.gz node_modules package.json public portal-app.js
 
+      - name: Uploading Artifact to S3 Bucket
+        run: |
+          cd app-Frontend
+          aws s3 cp portal-spontan-github-action.tar.gz s3://portal-app-spontansolutions/github-actions/
+        
+
 
     #   - name: Set up JDK 17
     #     uses: actions/setup-java@v3
