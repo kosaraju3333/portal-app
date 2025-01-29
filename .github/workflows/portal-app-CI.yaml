@@ -1,5 +1,5 @@
 # .github/workflows/build.yml
-name: Portal-app-Build
+name: Portal-app-CI
 
 on:
   push:
@@ -46,6 +46,15 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ vars.DOCKERHUB_PASSWORD }}
+
+      - name: Create Docker Image and Tag
+        run: |
+          cd app-Frontend
+          docker build -t ${{ vars.DOCKERHUB_USERNAME }}/portal-spontan-github-action:V1 .
+
+      - name: Docker Image Push
+        run: |
+          docker push ${{ vars.DOCKERHUB_USERNAME }}/portal-spontan-github-action:V1
         
 
 
