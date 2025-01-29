@@ -20,15 +20,17 @@ jobs:
 
       - name: Portal-app-Build
         run: | 
+          cd app-Frontend
           npm init -y
           npm i express.js body-parser knex pg nodemon
 
       - name: Downloading portal-app.js from AWS
         run: |
-          aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js .
+          aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
           
       - name: Creating Artifact
         run: |
+          cd app-Frontend
           tar -czf portal-spontan-github-action.tar.gz node_modules package.json public portal-app.js
 
 
