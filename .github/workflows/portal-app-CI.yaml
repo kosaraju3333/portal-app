@@ -26,6 +26,10 @@ jobs:
       - name: Downloading portal-app.js from AWS
         run: |
           aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js .
+          
+      - name: Creating Artifact
+        run: |
+          tar -czf portal-spontan-github-action.tar.gz node_modules package.json public portal-app.js
 
 
     #   - name: Set up JDK 17
