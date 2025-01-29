@@ -37,6 +37,12 @@ jobs:
         run: |
           cd app-Frontend
           aws s3 cp portal-spontan-github-action.tar.gz s3://portal-app-spontansolutions/github-actions/
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ vars.DOCKERHUB_PASSWORD }}
         
 
 
