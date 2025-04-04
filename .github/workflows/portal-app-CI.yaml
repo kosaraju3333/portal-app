@@ -113,7 +113,7 @@ jobs:
         run: |
           curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
           --upload-file app-Frontend/portal-app-$DATE.tar.gz \
-          https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app.tar.gz
+          https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-$DATE.tar.gz
 
     ### Uploading Artifact to S3
       - name: Uploading Artifact to S3 Bucket
@@ -148,6 +148,14 @@ jobs:
 
 
     ### Docker Image Scan by Trivy
+      - name: Run Trivy FS Scan (Repository Dependencies)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+          ignore-unfixed: true
+          format: 'table'
+          exit-code: 1
+          severity: 'CRITICAL,HIGH'
 
 
     ### Push to Docker Hub
