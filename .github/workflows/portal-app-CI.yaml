@@ -20,8 +20,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '16'
-        #  cache: 'npm'
 
+############################# Pre Build Phase ###################################
     ### Run Trivy FS Scan
       - name: Run Trivy FS Scan (Repository Dependencies)
         uses: aquasecurity/trivy-action@0.28.0
@@ -32,6 +32,19 @@ jobs:
           exit-code: 1
           severity: 'CRITICAL,HIGH' 
 
+    ### SonarQube Scane for code analysis
+      - name: Code analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npx sonarqube-scanner \
+          -Dsonar.projectKey=my-app \
+          -Dsonar.sources=app-Frontend/public \
+          -Dsonar.host.url=https://sonarqube.spontansolutions.com/ \
+          -Dsonar.token=$SONAR_TOKEN
+
+
+#################################### Build Phase ########################################
     ### Configuring AWS CLI access.
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
