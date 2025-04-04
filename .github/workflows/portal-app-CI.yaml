@@ -60,6 +60,8 @@ jobs:
     
     ### Wait for SonarQube Analysis
       - name: Wait for SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           STATUS="PENDING"
           while [ "$STATUS" == "PENDING" ]; do
@@ -68,11 +70,11 @@ jobs:
             STATUS=$(echo "$RESPONSE" | jq -r '.projectStatus.status' || echo "PENDING")
             echo "Waiting for SonarQube Analysis... Current Status: $STATUS"
           done
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     ### SonarQube Quality Gates
       - name: Check SonarQube Quality Gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           echo "1234"
           echo $STATUS
