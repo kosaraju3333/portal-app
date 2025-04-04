@@ -97,25 +97,29 @@ jobs:
           npm init -y
           npm i express.js body-parser knex pg nodemon
 
+    ### Set Date Variable 
+      - name: Set Date Variable
+        run: echo "DATE=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
 
     ### Creating Artifact
       - name: Creating Artifact
         run: |
           cd app-Frontend
-          tar -czf portal-app.tar.gz node_modules package.json public portal-app.js
+          tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js
 
     ### Uploading Artifact to Nexus
       - name: Upload to Nexus
         run: |
           curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
-          --upload-file app-Frontend/portal-app.tar.gz \
+          --upload-file app-Frontend/portal-app-$DATE.tar.gz \
           https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app.tar.gz
 
     ### Uploading Artifact to S3
       - name: Uploading Artifact to S3 Bucket
         run: |
           cd app-Frontend
-          aws s3 cp portal-app.tar.gz s3://portal-app-spontansolutions/github-actions/
+          aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
 
     ### Installing Docker 
       - name: Set up Docker
@@ -128,9 +132,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-     ### Set Date Variable 
-      - name: Set Date Variable
-        run: echo "IMAGE_TAG=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+    #  ### Set Date Variable 
+    #   - name: Set Date Variable
+    #     run: echo "IMAGE_TAG=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
     ### Build Docker Image
       - name: Build Portal-app Docker Image
@@ -139,7 +143,7 @@ jobs:
           context: app-Frontend
           dockerfile: Dockerfile
           push: false
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app-gitactions:IMAGE_TAG
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:$DATE
 
     ### Push to Docker Hub
       - name: Push Portal-app to Docker Hub
@@ -148,7 +152,7 @@ jobs:
           context: app-Frontend
           dockerfile: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app-gitactions:IMAGE_TAG
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:$DATE
 
 
     ### 🚨 Send Slack Alert on Failure
