@@ -63,7 +63,7 @@ jobs:
         run: |
           STATUS="PENDING"
           while [ "$STATUS" == "PENDING" ]; do
-            sleep 10
+            sleep 20
             RESPONSE=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app")
             STATUS=$(echo "$RESPONSE" | jq -r '.projectStatus.status' || echo "PENDING")
             echo "Waiting for SonarQube Analysis... Current Status: $STATUS"
@@ -76,23 +76,75 @@ jobs:
         run: |
           STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app" | jq -r .projectStatus.status)
           if [ "$STATUS" != "OK" ]; then
-            echo "XXXX Quality Gate Failed. Stoping deployment!! XXXX"
+            echo "❌ ❌ Quality Gate Failed. Stoping deployment!! ❌ ❌ "
             exit 1
           fi
 
-# #################################### Build Phase ########################################
+#################################### Build Phase ########################################
 
-#     ### Downloading portal-app.js
-#       - name: Downloading portal-app.js from AWS
-#         run: |
-#           aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
+    ### Downloading portal-app.js
+      - name: Downloading portal-app.js from AWS
+        run: |
+          aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
 
-#     ### Building the app
-#       - name: Portal-app-Build
-#         run: |
-#           cd app-Frontend
-#           npm init -y
-#           npm i express.js body-parser knex pg nodemon
+    ### Building the app
+      - name: Portal-app-Build
+        run: |
+          cd app-Frontend
+          npm init -y
+          npm i express.js body-parser knex pg nodemon
+
+
+    ### Creating Artifact
+      - name: Creating Artifact
+        run: |
+          cd app-Frontend
+          tar -czf portal-spontan-github-action.tar.gz node_modules package.json public portal-app.js
+
+    ### Uploading Artifact to S3
+      - name: Uploading Artifact to S3 Bucket
+        run: |
+          cd app-Frontend
+          aws s3 cp portal-spontan-github-action.tar.gz s3://portal-app-spontansolutions/github-actions/
+
+
+
+
+
+    ### 🚨 Send Slack Alert on Failure
+      - name: Send Slack Alert on Failure
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "attachments": [
+              {
+                "color": "#FF0000",
+                "title": "🚨 CI/CD Pipeline Failed!",
+                "text": "❌ Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              }
+            ]
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    ### ✅ Send Slack Alert on Success
+      - name: Send Slack Alert on Success
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "attachments": [
+              {
+                "color": "#36A64F",
+                "title": "✅ CI/CD Pipeline Succeeded!",
+                "text": "🎉 Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              }
+            ]
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+
+
+
+
+
+    
 
 
 
