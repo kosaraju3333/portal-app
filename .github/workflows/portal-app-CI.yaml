@@ -108,8 +108,8 @@ jobs:
       - name: Upload to Nexus
         run: |
           curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
-          --upload-file portal-spontan-github-action.tar.gz \
-          https://nexus.spontansolutions.com/repository/nodejs-artifacts/portal-spontan-github-action.tar.gz
+          --upload-file portal-app-github-action.tar.gz \
+          https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-github-action.tar.gz
 
     ### Uploading Artifact to S3
       - name: Uploading Artifact to S3 Bucket
@@ -178,14 +178,4 @@ jobs:
               }
             ]
           }' ${{ secrets.SLACK_WEBHOOK_URL }}
-
-
-
-
-
-
-    
-
-
-
 
