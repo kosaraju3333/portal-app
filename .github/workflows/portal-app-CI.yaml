@@ -57,6 +57,19 @@ jobs:
           -Dsonar.sources=app-Frontend/public \
           -Dsonar.host.url=https://sonarqube.spontansolutions.com/ \
           -Dsonar.login=$SONAR_TOKEN
+    
+    ### Wait for SonarQube Analysis
+      - name: Wait for SonarQube Analysis
+        run: |
+          STATUS="PENDING"
+          while [ "$STATUS" == "PENDING" ]; do
+            sleep 10
+            RESPONSE=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app")
+            STATUS=$(echo "$RESPONSE" | jq -r '.projectStatus.status' || echo "PENDING")
+            echo "Waiting for SonarQube Analysis... Current Status: $STATUS"
+          done
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     ### SonarQube Quality Gates
       - name: Check SonarQube Quality Gate
@@ -67,19 +80,19 @@ jobs:
             exit 1
           fi
 
-#################################### Build Phase ########################################
+# #################################### Build Phase ########################################
 
-    ### Downloading portal-app.js
-      - name: Downloading portal-app.js from AWS
-        run: |
-          aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
+#     ### Downloading portal-app.js
+#       - name: Downloading portal-app.js from AWS
+#         run: |
+#           aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
 
-    ### Building the app
-      - name: Portal-app-Build
-        run: |
-          cd app-Frontend
-          npm init -y
-          npm i express.js body-parser knex pg nodemon
+#     ### Building the app
+#       - name: Portal-app-Build
+#         run: |
+#           cd app-Frontend
+#           npm init -y
+#           npm i express.js body-parser knex pg nodemon
 
 
 
