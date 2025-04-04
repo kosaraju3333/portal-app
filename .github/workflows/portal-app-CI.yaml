@@ -56,7 +56,7 @@ jobs:
           -Dsonar.projectKey=portal-app \
           -Dsonar.sources=app-Frontend/public \
           -Dsonar.host.url=https://sonarqube.spontansolutions.com/ \
-          -Dsonar.token=$SONAR_TOKEN
+          -Dsonar.login=$SONAR_TOKEN
 
 
 #################################### Build Phase ########################################
