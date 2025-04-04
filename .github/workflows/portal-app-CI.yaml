@@ -61,7 +61,7 @@ jobs:
     ### SonarQube Quality Gates
       - name: Check SonarQube Quality Gate
         run: |
-          STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com//api/qualitygates/project_status?projectKey=portal-app" | jq -r .projectStatus.status)
+          STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app" | jq -r .projectStatus.status)
           if [ "$STATUS" != "OK" ]; then
             echo "XXXX Quality Gate Failed. Stoping deployment!! XXXX"
             exit 1
