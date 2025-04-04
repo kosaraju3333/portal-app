@@ -143,7 +143,12 @@ jobs:
           context: app-Frontend
           dockerfile: Dockerfile
           push: false
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:$DATE
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ DATE }}
+
+
+
+    ### Docker Image Scan by Trivy
+    
 
     ### Push to Docker Hub
       - name: Push Portal-app to Docker Hub
@@ -152,7 +157,7 @@ jobs:
           context: app-Frontend
           dockerfile: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:$DATE
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ DATE }}
 
 
     ### 🚨 Send Slack Alert on Failure
