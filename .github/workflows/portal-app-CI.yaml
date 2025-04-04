@@ -102,13 +102,13 @@ jobs:
       - name: Creating Artifact
         run: |
           cd app-Frontend
-          tar -czf portal-spontan-github-action.tar.gz node_modules package.json public portal-app.js
+          tar -czf portal-app-github-action.tar.gz node_modules package.json public portal-app.js
 
     ### Uploading Artifact to Nexus
       - name: Upload to Nexus
         run: |
           curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
-          --upload-file portal-app-github-action.tar.gz \
+          --upload-file app-Frontend/portal-app-github-action.tar.gz \
           https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-github-action.tar.gz
 
     ### Uploading Artifact to S3
