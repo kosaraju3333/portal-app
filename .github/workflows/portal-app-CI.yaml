@@ -145,17 +145,20 @@ jobs:
           push: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
 
+    # ### Docker Image Scan by Trivy
+    #   - name: Run Trivy Docker Image Scan (Docker Image Scan)
+    #     uses: aquasecurity/trivy-action@0.28.0
+    #     with:
+    #       scan-type: 'image'
+    #       scan-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+    #       ignore-unfixed: true
+    #       format: 'table'
+    #       exit-code: 1
+    #       severity: 'CRITICAL,HIGH'
 
-
-    ### Docker Image Scan by Trivy
-      - name: Run Trivy Docker Image Scan (Docker Image Scan)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
-          ignore-unfixed: true
-          format: 'table'
-          exit-code: 1
-          severity: 'CRITICAL,HIGH'
+      - name: Run Trivy Scan on Docker Image
+        run: |
+          trivy image --exit-code 1 --severity HIGH,CRITICAL ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
 
 
     ### Push to Docker Hub
