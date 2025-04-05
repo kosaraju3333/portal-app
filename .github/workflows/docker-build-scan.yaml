@@ -1,0 +1,31 @@
+name: Build and Scan Docker Image
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set image tag with date
+        run: echo "IMAGE_TAG=portal-app:$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: |
+          docker build -t $IMAGE_TAG .
+
+      - name: Install Trivy
+        run: |
+          sudo apt-get update && sudo apt-get install -y wget
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.0_Linux-64bit.deb
+          sudo dpkg -i trivy_0.50.0_Linux-64bit.deb
+
+      - name: Scan Docker image with Trivy
+        run: |
+          trivy image --severity CRITICAL,HIGH --exit-code 1 --no-progress $IMAGE_TAG

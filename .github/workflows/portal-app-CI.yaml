@@ -1,221 +1,221 @@
-name: Build and Push Docker image of  portal-app to Docker Hub
+# name: Build and Push Docker image of  portal-app to Docker Hub
 
-on: 
-  push:
-    branches:
-      - "master"
+# on: 
+#   push:
+#     branches:
+#       - "master"
 
-jobs:
-  portal-app-CI:
-    name: Build and push portal-app image to DOCKER HUB
-    runs-on: ubuntu-latest
+# jobs:
+#   portal-app-CI:
+#     name: Build and push portal-app image to DOCKER HUB
+#     runs-on: ubuntu-latest
 
-    ### GIT code Checkout 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+#     ### GIT code Checkout 
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
 
-    ### Installing Nodejs 16
-      - name: Setup Node.js 16
-        uses: actions/setup-node@v4
-        with:
-          node-version: '16'
+#     ### Installing Nodejs 16
+#       - name: Setup Node.js 16
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '16'
 
-    ### Installing Java JDK17 (Required for SonarQube)
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+#     ### Installing Java JDK17 (Required for SonarQube)
+#       - name: Setup JDK 17
+#         uses: actions/setup-java@v4
+#         with:
+#           distribution: 'temurin'
+#           java-version: '17'
 
-    ### Configuring AWS CLI access.
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+#     ### Configuring AWS CLI access.
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: ${{ secrets.AWS_REGION }}
 
-############################# Pre Build Phase ###################################
-    # ### Run Trivy FS Scan
-    #   - name: Run Trivy FS Scan (Repository Dependencies)
-    #     uses: aquasecurity/trivy-action@0.28.0
-    #     with:
-    #       scan-type: 'fs'
-    #       ignore-unfixed: true
-    #       format: 'table'
-    #       exit-code: 1
-    #       severity: 'CRITICAL,HIGH' 
+# ############################# Pre Build Phase ###################################
+#     # ### Run Trivy FS Scan
+#     #   - name: Run Trivy FS Scan (Repository Dependencies)
+#     #     uses: aquasecurity/trivy-action@0.28.0
+#     #     with:
+#     #       scan-type: 'fs'
+#     #       ignore-unfixed: true
+#     #       format: 'table'
+#     #       exit-code: 1
+#     #       severity: 'CRITICAL,HIGH' 
 
-    # ### SonarQube Scane for code analysis
-    #   - name: Code analysis
-    #     env:
-    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    #     run: |
-    #       npx sonarqube-scanner \
-    #       -Dsonar.projectKey=portal-app \
-    #       -Dsonar.sources=app-Frontend/public \
-    #       -Dsonar.host.url=https://sonarqube.spontansolutions.com/ \
-    #       -Dsonar.login=$SONAR_TOKEN
+#     # ### SonarQube Scane for code analysis
+#     #   - name: Code analysis
+#     #     env:
+#     #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#     #     run: |
+#     #       npx sonarqube-scanner \
+#     #       -Dsonar.projectKey=portal-app \
+#     #       -Dsonar.sources=app-Frontend/public \
+#     #       -Dsonar.host.url=https://sonarqube.spontansolutions.com/ \
+#     #       -Dsonar.login=$SONAR_TOKEN
     
-    # ### Wait for SonarQube Analysis
-    #   - name: Wait for SonarQube Analysis
-    #     env:
-    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    #     run: |
-    #       STATUS="PENDING"
-    #       while [ "$STATUS" == "PENDING" ]; do
-    #         sleep 20
-    #         RESPONSE=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app")
-    #         STATUS=$(echo "$RESPONSE" | jq -r '.projectStatus.status' || echo "PENDING")
-    #         echo "Waiting for SonarQube Analysis... Current Status: $STATUS"
-    #       done
+#     # ### Wait for SonarQube Analysis
+#     #   - name: Wait for SonarQube Analysis
+#     #     env:
+#     #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#     #     run: |
+#     #       STATUS="PENDING"
+#     #       while [ "$STATUS" == "PENDING" ]; do
+#     #         sleep 20
+#     #         RESPONSE=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app")
+#     #         STATUS=$(echo "$RESPONSE" | jq -r '.projectStatus.status' || echo "PENDING")
+#     #         echo "Waiting for SonarQube Analysis... Current Status: $STATUS"
+#     #       done
 
-    # ### SonarQube Quality Gates
-    #   - name: Check SonarQube Quality Gate
-    #     env:
-    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    #     run: |
-    #       STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app" | jq -r .projectStatus.status)
-    #       echo $STATUS
-    #       if [ "$STATUS" != "OK" ]; then
-    #         echo "❌ ❌ Quality Gate Failed. Stoping deployment!! ❌ ❌ "
-    #         exit 1
-    #       fi
+#     # ### SonarQube Quality Gates
+#     #   - name: Check SonarQube Quality Gate
+#     #     env:
+#     #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#     #     run: |
+#     #       STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app" | jq -r .projectStatus.status)
+#     #       echo $STATUS
+#     #       if [ "$STATUS" != "OK" ]; then
+#     #         echo "❌ ❌ Quality Gate Failed. Stoping deployment!! ❌ ❌ "
+#     #         exit 1
+#     #       fi
 
-#################################### Build Phase ########################################
+# #################################### Build Phase ########################################
 
-    ### Downloading portal-app.js
-      - name: Downloading portal-app.js from AWS
-        run: |
-          aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
+#     # ### Downloading portal-app.js
+#     #   - name: Downloading portal-app.js from AWS
+#     #     run: |
+#     #       aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
 
-    ### Building the app
-      - name: Portal-app-Build
-        run: |
-          cd app-Frontend
-          npm init -y
-          npm i express.js body-parser knex pg nodemon
+#     # ### Building the app
+#     #   - name: Portal-app-Build
+#     #     run: |
+#     #       cd app-Frontend
+#     #       npm init -y
+#     #       npm i express.js body-parser knex pg nodemon
 
-    ### Set Date Variable 
-      - name: Set Date Variable
-        run: echo "DATE=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
-
-
-    # ### Creating Artifact
-    #   - name: Creating Artifact
-    #     run: |
-    #       cd app-Frontend
-    #       tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js
-
-    # ### Uploading Artifact to Nexus
-    #   - name: Upload to Nexus
-    #     run: |
-    #       curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
-    #       --upload-file app-Frontend/portal-app-$DATE.tar.gz \
-    #       https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-$DATE.tar.gz
-
-    # ### Uploading Artifact to S3
-    #   - name: Uploading Artifact to S3 Bucket
-    #     run: |
-    #       cd app-Frontend
-    #       aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
-
-    ### Installing Docker 
-      - name: Set up Docker
-        uses: docker/setup-docker-action@v4
-
-    ### Docker Login
-      - name: Login Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      # - name: Install Trivy
-      #   run: |
-      #     sudo apt-get install wget apt-transport-https gnupg lsb-release
-      #     wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-      #     echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-      #     sudo apt-get update -y
-      #     sudo apt-get install -y trivy
-
-    ### Build Docker Image
-      - name: Build Portal-app Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: app-Frontend
-          dockerfile: Dockerfile
-          push: false
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
-
-      # - name: Scan local Docker image with Trivy
-      #   uses: aquasecurity/trivy-action@master
-      #   with:
-      #     image-ref: 'portal-app:latest'
-      #     format: 'table'
-      #     severity: 'CRITICAL,HIGH'
-
-      # - name: Run Trivy Scan on Local Docker Image
-      #   run: |
-      #     echo "1234"
-      #     docker images
-      #     echo "5678"
-      #     trivy image --severity HIGH,CRITICAL portal-app:latest
-        # trivy image --severity HIGH,CRITICAL portal-app:${{ env.DATE }}
-
-      # - name: Tag Docker Image
-      #   run: |
-      #     docker tag portal-app:${{ env.DATE }} ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+#     ### Set Date Variable 
+#       - name: Set Date Variable
+#         run: echo "DATE=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
 
-    ### Push to Docker Hub
-      - name: Push Portal-app to Docker Hub
-        uses: docker/build-push-action@v6
-        with:
-          context: app-Frontend
-          dockerfile: Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+#     # ### Creating Artifact
+#     #   - name: Creating Artifact
+#     #     run: |
+#     #       cd app-Frontend
+#     #       tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js
 
-  ### Docker Image Scan by Trivy
-      - name: Run Trivy Docker Image Scan (Docker Image Scan)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: 'image'
-          scan-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
-          ignore-unfixed: true
-          format: 'table'
-          # exit-code: 1
-          # severity: 'CRITICAL,HIGH'
+#     # ### Uploading Artifact to Nexus
+#     #   - name: Upload to Nexus
+#     #     run: |
+#     #       curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
+#     #       --upload-file app-Frontend/portal-app-$DATE.tar.gz \
+#     #       https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-$DATE.tar.gz
+
+#     # ### Uploading Artifact to S3
+#     #   - name: Uploading Artifact to S3 Bucket
+#     #     run: |
+#     #       cd app-Frontend
+#     #       aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
+
+#     ### Installing Docker 
+#       - name: Set up Docker
+#         uses: docker/setup-docker-action@v4
+
+#     ### Docker Login
+#       - name: Login Docker Hub
+#         uses: docker/login-action@v3
+#         with:
+#           username: ${{ secrets.DOCKERHUB_USERNAME }}
+#           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+#       # - name: Install Trivy
+#       #   run: |
+#       #     sudo apt-get install wget apt-transport-https gnupg lsb-release
+#       #     wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+#       #     echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+#       #     sudo apt-get update -y
+#       #     sudo apt-get install -y trivy
+
+#     ### Build Docker Image
+#       - name: Build Portal-app Docker Image
+#         uses: docker/build-push-action@v6
+#         with:
+#           context: app-Frontend
+#           dockerfile: Dockerfile
+#           push: false
+#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+
+#       # - name: Scan local Docker image with Trivy
+#       #   uses: aquasecurity/trivy-action@master
+#       #   with:
+#       #     image-ref: 'portal-app:latest'
+#       #     format: 'table'
+#       #     severity: 'CRITICAL,HIGH'
+
+#       # - name: Run Trivy Scan on Local Docker Image
+#       #   run: |
+#       #     echo "1234"
+#       #     docker images
+#       #     echo "5678"
+#       #     trivy image --severity HIGH,CRITICAL portal-app:latest
+#         # trivy image --severity HIGH,CRITICAL portal-app:${{ env.DATE }}
+
+#       # - name: Tag Docker Image
+#       #   run: |
+#       #     docker tag portal-app:${{ env.DATE }} ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+
+
+#     ### Push to Docker Hub
+#       - name: Push Portal-app to Docker Hub
+#         uses: docker/build-push-action@v6
+#         with:
+#           context: app-Frontend
+#           dockerfile: Dockerfile
+#           push: true
+#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+
+#   ### Docker Image Scan by Trivy
+#       - name: Run Trivy Docker Image Scan (Docker Image Scan)
+#         uses: aquasecurity/trivy-action@0.28.0
+#         with:
+#           scan-type: 'image'
+#           scan-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+#           ignore-unfixed: true
+#           format: 'table'
+#           # exit-code: 1
+#           # severity: 'CRITICAL,HIGH'
 
 
 
-    # ### 🚨 Send Slack Alert on Failure
-    #   - name: Send Slack Alert on Failure
-    #     if: failure()
-    #     run: |
-    #       curl -X POST -H 'Content-type: application/json' --data '{
-    #         "attachments": [
-    #           {
-    #             "color": "#FF0000",
-    #             "title": "🚨 CI/CD Pipeline Failed!",
-    #             "text": "❌ Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-    #           }
-    #         ]
-    #       }' ${{ secrets.SLACK_WEBHOOK_URL }}
+#     # ### 🚨 Send Slack Alert on Failure
+#     #   - name: Send Slack Alert on Failure
+#     #     if: failure()
+#     #     run: |
+#     #       curl -X POST -H 'Content-type: application/json' --data '{
+#     #         "attachments": [
+#     #           {
+#     #             "color": "#FF0000",
+#     #             "title": "🚨 CI/CD Pipeline Failed!",
+#     #             "text": "❌ Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+#     #           }
+#     #         ]
+#     #       }' ${{ secrets.SLACK_WEBHOOK_URL }}
 
-    # ### ✅ Send Slack Alert on Success
-    #   - name: Send Slack Alert on Success
-    #     if: success()
-    #     run: |
-    #       curl -X POST -H 'Content-type: application/json' --data '{
-    #         "attachments": [
-    #           {
-    #             "color": "#36A64F",
-    #             "title": "✅ CI/CD Pipeline Succeeded!",
-    #             "text": "🎉 Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-    #           }
-    #         ]
-    #       }' ${{ secrets.SLACK_WEBHOOK_URL }}
+#     # ### ✅ Send Slack Alert on Success
+#     #   - name: Send Slack Alert on Success
+#     #     if: success()
+#     #     run: |
+#     #       curl -X POST -H 'Content-type: application/json' --data '{
+#     #         "attachments": [
+#     #           {
+#     #             "color": "#36A64F",
+#     #             "title": "✅ CI/CD Pipeline Succeeded!",
+#     #             "text": "🎉 Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+#     #           }
+#     #         ]
+#     #       }' ${{ secrets.SLACK_WEBHOOK_URL }}
 
