@@ -134,12 +134,15 @@ jobs:
 
     ### Build Docker Image
       - name: Build Portal-app Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: app-Frontend
-          dockerfile: Dockerfile
-          push: false
-          tags: portal-app:${{ env.DATE }}
+        run: |
+          cd app-Frontend
+          docker build -t portal-app:${{ env.DATE }}
+        # uses: docker/build-push-action@v6
+        # with:
+        #   context: app-Frontend
+        #   dockerfile: Dockerfile
+        #   push: false
+        #   tags: portal-app:${{ env.DATE }}
 
     # ### Docker Image Scan by Trivy
     #   - name: Run Trivy Docker Image Scan (Docker Image Scan)
@@ -154,6 +157,7 @@ jobs:
 
       - name: Run Trivy Scan on Docker Image
         run: |
+          cd app-Frontend
           echo "1234"
           docker images
           echo "5678"
