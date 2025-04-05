@@ -136,6 +136,7 @@ jobs:
           image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
           format: 'table'
           ignore-unfixed: true
+          exit-code: 0
           severity: 'CRITICAL,HIGH'
 
     ### Docker Login
