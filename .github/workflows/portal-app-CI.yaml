@@ -148,7 +148,7 @@ jobs:
 
 
     ### Docker Image Scan by Trivy
-      - name: Run Trivy FS Scan (Repository Dependencies)
+      - name: Run Trivy Docker Image Scan (Docker Image Scan)
         uses: aquasecurity/trivy-action@0.28.0
         with:
           scan-type: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
