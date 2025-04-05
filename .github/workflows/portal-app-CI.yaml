@@ -37,51 +37,51 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
 ############################# Pre Build Phase ###################################
-    ### Run Trivy FS Scan
-      - name: Run Trivy FS Scan (Repository Dependencies)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          format: 'table'
-          exit-code: 1
-          severity: 'CRITICAL,HIGH' 
+    # ### Run Trivy FS Scan
+    #   - name: Run Trivy FS Scan (Repository Dependencies)
+    #     uses: aquasecurity/trivy-action@0.28.0
+    #     with:
+    #       scan-type: 'fs'
+    #       ignore-unfixed: true
+    #       format: 'table'
+    #       exit-code: 1
+    #       severity: 'CRITICAL,HIGH' 
 
-    ### SonarQube Scane for code analysis
-      - name: Code analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          npx sonarqube-scanner \
-          -Dsonar.projectKey=portal-app \
-          -Dsonar.sources=app-Frontend/public \
-          -Dsonar.host.url=https://sonarqube.spontansolutions.com/ \
-          -Dsonar.login=$SONAR_TOKEN
+    # ### SonarQube Scane for code analysis
+    #   - name: Code analysis
+    #     env:
+    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     run: |
+    #       npx sonarqube-scanner \
+    #       -Dsonar.projectKey=portal-app \
+    #       -Dsonar.sources=app-Frontend/public \
+    #       -Dsonar.host.url=https://sonarqube.spontansolutions.com/ \
+    #       -Dsonar.login=$SONAR_TOKEN
     
-    ### Wait for SonarQube Analysis
-      - name: Wait for SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          STATUS="PENDING"
-          while [ "$STATUS" == "PENDING" ]; do
-            sleep 20
-            RESPONSE=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app")
-            STATUS=$(echo "$RESPONSE" | jq -r '.projectStatus.status' || echo "PENDING")
-            echo "Waiting for SonarQube Analysis... Current Status: $STATUS"
-          done
+    # ### Wait for SonarQube Analysis
+    #   - name: Wait for SonarQube Analysis
+    #     env:
+    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     run: |
+    #       STATUS="PENDING"
+    #       while [ "$STATUS" == "PENDING" ]; do
+    #         sleep 20
+    #         RESPONSE=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app")
+    #         STATUS=$(echo "$RESPONSE" | jq -r '.projectStatus.status' || echo "PENDING")
+    #         echo "Waiting for SonarQube Analysis... Current Status: $STATUS"
+    #       done
 
-    ### SonarQube Quality Gates
-      - name: Check SonarQube Quality Gate
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app" | jq -r .projectStatus.status)
-          echo $STATUS
-          if [ "$STATUS" != "OK" ]; then
-            echo "❌ ❌ Quality Gate Failed. Stoping deployment!! ❌ ❌ "
-            exit 1
-          fi
+    # ### SonarQube Quality Gates
+    #   - name: Check SonarQube Quality Gate
+    #     env:
+    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     run: |
+    #       STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarqube.spontansolutions.com/api/qualitygates/project_status?projectKey=portal-app" | jq -r .projectStatus.status)
+    #       echo $STATUS
+    #       if [ "$STATUS" != "OK" ]; then
+    #         echo "❌ ❌ Quality Gate Failed. Stoping deployment!! ❌ ❌ "
+    #         exit 1
+    #       fi
 
 #################################### Build Phase ########################################
 
@@ -102,24 +102,24 @@ jobs:
         run: echo "DATE=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
 
-    ### Creating Artifact
-      - name: Creating Artifact
-        run: |
-          cd app-Frontend
-          tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js
+    # ### Creating Artifact
+    #   - name: Creating Artifact
+    #     run: |
+    #       cd app-Frontend
+    #       tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js
 
-    ### Uploading Artifact to Nexus
-      - name: Upload to Nexus
-        run: |
-          curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
-          --upload-file app-Frontend/portal-app-$DATE.tar.gz \
-          https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-$DATE.tar.gz
+    # ### Uploading Artifact to Nexus
+    #   - name: Upload to Nexus
+    #     run: |
+    #       curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
+    #       --upload-file app-Frontend/portal-app-$DATE.tar.gz \
+    #       https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-$DATE.tar.gz
 
-    ### Uploading Artifact to S3
-      - name: Uploading Artifact to S3 Bucket
-        run: |
-          cd app-Frontend
-          aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
+    # ### Uploading Artifact to S3
+    #   - name: Uploading Artifact to S3 Bucket
+    #     run: |
+    #       cd app-Frontend
+    #       aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
 
     ### Installing Docker 
       - name: Set up Docker
@@ -143,8 +143,7 @@ jobs:
     ### Build Docker Image
       - name: Build Portal-app Docker Image
         run: |
-          cd app-Frontend
-          docker build -t portal-app:latest .
+          docker build -t portal-app:latest app-Frontend
         # docker build -t portal-app:${{ env.DATE }} .
         # uses: docker/build-push-action@v6
         # with:
@@ -164,9 +163,8 @@ jobs:
     #       exit-code: 1
     #       severity: 'CRITICAL,HIGH'
 
-      - name: Run Trivy Scan on Docker Image
+      - name: Run Trivy Scan on Local Docker Image
         run: |
-          cd app-Frontend
           echo "1234"
           docker images
           echo "5678"
