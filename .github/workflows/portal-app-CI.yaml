@@ -143,14 +143,19 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y trivy
 
-    ### Build Docker Image
-      - name: Build Portal-app Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: app-Frontend
-          dockerfile: Dockerfile
-          push: false
-          tags: $IMAGE_TAG
+    # ### Build Docker Image
+    #   - name: Build Portal-app Docker Image
+    #     uses: docker/build-push-action@v6
+    #     with:
+    #       context: app-Frontend
+    #       dockerfile: Dockerfile
+    #       push: false
+    #       tags: $IMAGE_TAG
+
+      - name: Build Docker image
+        run: |
+          cd app-Frontend
+          docker build -t $IMAGE_TAG .
 
       - name: Scan local Docker image with Trivy
         uses: aquasecurity/trivy-action@master
