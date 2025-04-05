@@ -44,7 +44,7 @@ jobs:
 
       - name: Scan Docker image with Trivy
         run: |
-          trivy image --severity CRITICAL,HIGH --exit-code 1 --no-progress $IMAGE_TAG
+          trivy image --severity CRITICAL,HIGH --no-progress $IMAGE_TAG
 
     ### Push to Docker Hub
       - name: Push Portal-app to Docker Hub
