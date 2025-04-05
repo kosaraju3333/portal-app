@@ -136,7 +136,7 @@ jobs:
       - name: Build Portal-app Docker Image
         run: |
           cd app-Frontend
-          docker build -t portal-app:${{ env.DATE }}
+          docker build -t portal-app:${{ env.DATE }} .
         # uses: docker/build-push-action@v6
         # with:
         #   context: app-Frontend
