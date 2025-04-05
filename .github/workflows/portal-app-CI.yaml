@@ -158,6 +158,9 @@ jobs:
 
       - name: Run Trivy Scan on Docker Image
         run: |
+          echo "1234"
+          docker images
+          echo "5678"
           trivy image --exit-code 1 --severity HIGH,CRITICAL ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
 
 
