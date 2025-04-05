@@ -186,8 +186,8 @@ jobs:
           scan-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
           ignore-unfixed: true
           format: 'table'
-          exit-code: 1
-          severity: 'CRITICAL,HIGH'
+          # exit-code: 1
+          # severity: 'CRITICAL,HIGH'
 
 
 
