@@ -17,9 +17,9 @@ jobs:
       - name: Set image tag with date
         run: echo "IMAGE_TAG=portal-app:$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
-    ### Installing Docker 
-      - name: Set up Docker
-        uses: docker/setup-docker-action@v3
+    # ### Installing Docker 
+    #   - name: Set up Docker
+    #     uses: docker/setup-docker-action@v3
 
     ### Docker Login
       - name: Login Docker Hub
