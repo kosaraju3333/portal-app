@@ -142,33 +142,19 @@ jobs:
 
     ### Build Docker Image
       - name: Build Portal-app Docker Image
-        run: |
-          docker build -t portal-app:latest app-Frontend
-        # docker build -t portal-app:${{ env.DATE }} .
-        # uses: docker/build-push-action@v6
-        # with:
-        #   context: app-Frontend
-        #   dockerfile: Dockerfile
-        #   push: false
-        #   tags: portal-app:${{ env.DATE }}
-
-    # ### Docker Image Scan by Trivy
-    #   - name: Run Trivy Docker Image Scan (Docker Image Scan)
-    #     uses: aquasecurity/trivy-action@0.28.0
-    #     with:
-    #       scan-type: 'image'
-    #       scan-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
-    #       ignore-unfixed: true
-    #       format: 'table'
-    #       exit-code: 1
-    #       severity: 'CRITICAL,HIGH'
-
-      - name: Scan local Docker image with Trivy
-        uses: aquasecurity/trivy-action@master
+        uses: docker/build-push-action@v6
         with:
-          image-ref: 'portal-app:latest'
-          format: 'table'
-          severity: 'CRITICAL,HIGH'
+          context: app-Frontend
+          dockerfile: Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+
+      # - name: Scan local Docker image with Trivy
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #     image-ref: 'portal-app:latest'
+      #     format: 'table'
+      #     severity: 'CRITICAL,HIGH'
 
       # - name: Run Trivy Scan on Local Docker Image
       #   run: |
@@ -183,14 +169,26 @@ jobs:
       #     docker tag portal-app:${{ env.DATE }} ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
 
 
-    # ### Push to Docker Hub
-    #   - name: Push Portal-app to Docker Hub
-    #     uses: docker/build-push-action@v6
-    #     with:
-    #       context: app-Frontend
-    #       dockerfile: Dockerfile
-    #       push: true
-    #       tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+    ### Push to Docker Hub
+      - name: Push Portal-app to Docker Hub
+        uses: docker/build-push-action@v6
+        with:
+          context: app-Frontend
+          dockerfile: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+
+  ### Docker Image Scan by Trivy
+      - name: Run Trivy Docker Image Scan (Docker Image Scan)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'image'
+          scan-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+          ignore-unfixed: true
+          format: 'table'
+          exit-code: 1
+          severity: 'CRITICAL,HIGH'
+
 
 
     # ### 🚨 Send Slack Alert on Failure
