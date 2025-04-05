@@ -18,6 +18,7 @@ jobs:
 
       - name: Build Docker image
         run: |
+          cd app-Frontend
           docker build -t $IMAGE_TAG .
 
       - name: Install Trivy
