@@ -143,7 +143,7 @@ jobs:
           context: app-Frontend
           dockerfile: Dockerfile
           push: false
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+          tags: kosaraju333/portal-app:${{ env.DATE }}
 
     # ### Docker Image Scan by Trivy
     #   - name: Run Trivy Docker Image Scan (Docker Image Scan)
@@ -161,7 +161,7 @@ jobs:
           echo "1234"
           docker images
           echo "5678"
-          trivy image --exit-code 1 --severity HIGH,CRITICAL ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+          trivy image --exit-code 1 --severity HIGH,CRITICAL kosaraju333/portal-app:${{ env.DATE }}
 
 
     ### Push to Docker Hub
