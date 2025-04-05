@@ -144,7 +144,8 @@ jobs:
       - name: Build Portal-app Docker Image
         run: |
           cd app-Frontend
-          docker build -t portal-app:${{ env.DATE }} .
+          docker build -t portal-app:latest .
+        # docker build -t portal-app:${{ env.DATE }} .
         # uses: docker/build-push-action@v6
         # with:
         #   context: app-Frontend
@@ -169,48 +170,49 @@ jobs:
           echo "1234"
           docker images
           echo "5678"
-          trivy image --severity HIGH,CRITICAL portal-app:${{ env.DATE }}
+          trivy image --severity HIGH,CRITICAL portal-app:latest
+        # trivy image --severity HIGH,CRITICAL portal-app:${{ env.DATE }}
 
-      - name: Tag Docker Image
-        run: |
-          docker tag portal-app:${{ env.DATE }} ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
-
-
-    ### Push to Docker Hub
-      - name: Push Portal-app to Docker Hub
-        uses: docker/build-push-action@v6
-        with:
-          context: app-Frontend
-          dockerfile: Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+      # - name: Tag Docker Image
+      #   run: |
+      #     docker tag portal-app:${{ env.DATE }} ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
 
 
-    ### 🚨 Send Slack Alert on Failure
-      - name: Send Slack Alert on Failure
-        if: failure()
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{
-            "attachments": [
-              {
-                "color": "#FF0000",
-                "title": "🚨 CI/CD Pipeline Failed!",
-                "text": "❌ Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-              }
-            ]
-          }' ${{ secrets.SLACK_WEBHOOK_URL }}
+    # ### Push to Docker Hub
+    #   - name: Push Portal-app to Docker Hub
+    #     uses: docker/build-push-action@v6
+    #     with:
+    #       context: app-Frontend
+    #       dockerfile: Dockerfile
+    #       push: true
+    #       tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
 
-    ### ✅ Send Slack Alert on Success
-      - name: Send Slack Alert on Success
-        if: success()
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{
-            "attachments": [
-              {
-                "color": "#36A64F",
-                "title": "✅ CI/CD Pipeline Succeeded!",
-                "text": "🎉 Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-              }
-            ]
-          }' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    # ### 🚨 Send Slack Alert on Failure
+    #   - name: Send Slack Alert on Failure
+    #     if: failure()
+    #     run: |
+    #       curl -X POST -H 'Content-type: application/json' --data '{
+    #         "attachments": [
+    #           {
+    #             "color": "#FF0000",
+    #             "title": "🚨 CI/CD Pipeline Failed!",
+    #             "text": "❌ Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+    #           }
+    #         ]
+    #       }' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    # ### ✅ Send Slack Alert on Success
+    #   - name: Send Slack Alert on Success
+    #     if: success()
+    #     run: |
+    #       curl -X POST -H 'Content-type: application/json' --data '{
+    #         "attachments": [
+    #           {
+    #             "color": "#36A64F",
+    #             "title": "✅ CI/CD Pipeline Succeeded!",
+    #             "text": "🎉 Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+    #           }
+    #         ]
+    #       }' ${{ secrets.SLACK_WEBHOOK_URL }}
 
