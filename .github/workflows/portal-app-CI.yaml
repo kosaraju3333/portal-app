@@ -132,13 +132,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Install Trivy
-        run: |
-          sudo apt-get install wget apt-transport-https gnupg lsb-release
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-          sudo apt-get update -y
-          sudo apt-get install -y trivy
+      # - name: Install Trivy
+      #   run: |
+      #     sudo apt-get install wget apt-transport-https gnupg lsb-release
+      #     wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+      #     echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+      #     sudo apt-get update -y
+      #     sudo apt-get install -y trivy
 
     ### Build Docker Image
       - name: Build Portal-app Docker Image
@@ -163,12 +163,19 @@ jobs:
     #       exit-code: 1
     #       severity: 'CRITICAL,HIGH'
 
-      - name: Run Trivy Scan on Local Docker Image
-        run: |
-          echo "1234"
-          docker images
-          echo "5678"
-          trivy image --severity HIGH,CRITICAL portal-app:latest
+      - name: Scan local Docker image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'portal-app:latest'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
+      # - name: Run Trivy Scan on Local Docker Image
+      #   run: |
+      #     echo "1234"
+      #     docker images
+      #     echo "5678"
+      #     trivy image --severity HIGH,CRITICAL portal-app:latest
         # trivy image --severity HIGH,CRITICAL portal-app:${{ env.DATE }}
 
       # - name: Tag Docker Image
