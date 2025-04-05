@@ -134,7 +134,7 @@ jobs:
 
       - name: Install Trivy
         run: |
-          sudo apt update
+          sudo apt update -y
           sudo apt install -y trivy
 
     ### Build Docker Image
