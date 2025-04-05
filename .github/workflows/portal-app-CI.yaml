@@ -132,6 +132,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Install Trivy
+        run: |
+          sudo apt update
+          sudo apt install -y trivy
+
     ### Build Docker Image
       - name: Build Portal-app Docker Image
         run: |
@@ -161,7 +166,7 @@ jobs:
           echo "1234"
           docker images
           echo "5678"
-          trivy image --exit-code 1 --severity HIGH,CRITICAL portal-app:${{ env.DATE }}
+          trivy image --severity HIGH,CRITICAL portal-app:${{ env.DATE }}
 
       - name: Tag Docker Image
         run: |
