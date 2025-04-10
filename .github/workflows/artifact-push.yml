@@ -19,3 +19,7 @@ jobs:
         run: |
           cd app-Frontend
           aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}

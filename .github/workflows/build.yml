@@ -11,6 +11,11 @@ jobs:
       - name: Downloading portal-app.js from AWS
         run: |
           aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
 
     ### Building the app
       - name: Portal-app-Build
