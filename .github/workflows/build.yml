@@ -15,13 +15,8 @@ jobs:
     steps:
       - name: Downloading portal-app.js from AWS
         run: |
-          pwd
-          ls
           aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
-          pwd
-          ls
-          cd app-Frontend
-          ls
+         
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -31,11 +26,7 @@ jobs:
     ### Building the app
       - name: Portal-app-Build
         run: |
-          pwd
-          ls
           cd app-Frontend
-          pwd
-          ls
           npm init -y
           npm i express.js body-parser knex pg nodemon
 
@@ -47,10 +38,5 @@ jobs:
     ### Creating Artifact
       - name: Creating Artifact
         run: |
-          pwd
-          ls
           cd app-Frontend
-          pwd
-          ls
-          ls ../
           tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js

@@ -3,7 +3,7 @@ name: Build and Push portal-app artifact
 on: 
   push:
     branches:
-      - "master"
+      - "master123"
 
 jobs:
   install_dependencies:
