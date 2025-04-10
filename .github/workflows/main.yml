@@ -18,28 +18,22 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     needs: pre-build
-    secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws-region: ${{ secrets.AWS_REGION }}
+    secrets: inherit
 
   artifact-push:
     uses: ./.github/workflows/artifact-push.yml
     needs: build
-    secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws-region: ${{ secrets.AWS_REGION }}
-
-  docker-build-scan:
-    uses: ./.github/workflows/docker_image_build_scan.yml
-    needs: artifact-push
     secrets: inherit
 
-  docker-push:
-    uses: ./.github/workflows/docker_image_push.yml
-    needs: docker-build-scan
-    secrets: inherit
+  # docker-build-scan:
+  #   uses: ./.github/workflows/docker_image_build_scan.yml
+  #   needs: artifact-push
+  #   secrets: inherit
+
+  # docker-push:
+  #   uses: ./.github/workflows/docker_image_push.yml
+  #   needs: docker-build-scan
+  #   secrets: inherit
 
   
 

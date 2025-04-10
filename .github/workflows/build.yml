@@ -2,6 +2,11 @@ name: Build
 
 on:
  workflow_call:
+  secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
 
 jobs:
   build:
@@ -11,7 +16,12 @@ jobs:
       - name: Downloading portal-app.js from AWS
         run: |
           aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
-          
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+
     ### Building the app
       - name: Portal-app-Build
         run: |
