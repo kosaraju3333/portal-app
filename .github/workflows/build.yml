@@ -1,0 +1,31 @@
+name: Build
+
+on:
+ workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    ### Downloading portal-app.js
+    steps:
+      - name: Downloading portal-app.js from AWS
+        run: |
+          aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
+
+    ### Building the app
+      - name: Portal-app-Build
+        run: |
+          cd app-Frontend
+          npm init -y
+          npm i express.js body-parser knex pg nodemon
+
+    ### Set Date Variable 
+      - name: Set Date Variable
+        run: echo "DATE=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
+
+    ### Creating Artifact
+      - name: Creating Artifact
+        run: |
+          cd app-Frontend
+          tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js

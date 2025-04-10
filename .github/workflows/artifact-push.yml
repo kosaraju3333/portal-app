@@ -1,0 +1,21 @@
+name: Artifact Push
+
+on:
+ workflow_call:
+
+jobs:
+  artifact-push:
+    runs-on: ubuntu-latest
+    steps:
+    # ### Uploading Artifact to Nexus
+    #   - name: Upload to Nexus
+    #     run: |
+    #       curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
+    #       --upload-file app-Frontend/portal-app-$DATE.tar.gz \
+    #       https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-$DATE.tar.gz
+
+    ### Uploading Artifact to S3
+      - name: Uploading Artifact to S3 Bucket
+        run: |
+          cd app-Frontend
+          aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
