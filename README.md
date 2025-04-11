@@ -56,18 +56,18 @@ Application Overview:
 - This is a simple signup system involves users registering on a platform by providing their details, which are then stored in a Postgres database
 User Signup Process
   1. User Input: The user fills out a signup form with details such as:
-      - **a. Name
-      - **b. Email
-      - **c. Password
+      - Name
+      - Email
+      - Password
   2. Validation:
-      a. Check if required fields are filled.
-      b. Validate email format and ensure its unique.
-      c. Ensure password meets
+      - Check if required fields are filled.
+      - Validate email format and ensure its unique.
+      - Ensure password meets
 
   3. Database Entry:
-      a. Store the user’s data in the database.
+      - Store the user’s data in the database.
   4. Login & Authentication:
-      a. Once verified, users can log in using their credentials.
+      - Once verified, users can log in using their credentials.
      
 - Deployed a Node.js application and PostgreSQL database on a private AWS EKS cluster, using separate Kubernetes namespaces for logical isolation
 - Node.js App Namespace:
