@@ -110,6 +110,13 @@ Slack integration is configured to notify build status (success/failure) after e
 
   - ArgoCD
     - Exposed ArgoCD to external world via **Aws Loadbalancer Controller**
-      ![Screenshot 2025-04-11 at 3 53 14 PM](https://github.com/user-attachments/assets/d750ed08-938e-4932-abc9-ebde13f9de1c)
+    ![Screenshot 2025-04-11 at 3 53 14 PM](https://github.com/user-attachments/assets/d750ed08-938e-4932-abc9-ebde13f9de1c)
+
+    - portal-app-Frontend
+    ![Screenshot 2025-04-11 at 3 57 47 PM](https://github.com/user-attachments/assets/554407a3-f428-4ac2-b7f2-4e5195e74170)
+
+    - Portal-database
+    ![Screenshot 2025-04-11 at 4 06 32 PM](https://github.com/user-attachments/assets/49af5644-7171-49ee-a198-501c7209c1b7)
+
 
   
