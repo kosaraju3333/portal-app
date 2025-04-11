@@ -177,6 +177,7 @@ jobs:
           git add .
           git commit -m "Update image to ${{ env.DATE }}"
           git push origin master
+        working-directory: git-ops-ArgoCD
 
 
 ############################## Notifications #######################################
