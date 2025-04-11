@@ -155,6 +155,31 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
 
+
+############################## CD ###############################################
+
+      - name: Clone GitOps Repo
+        run: |
+          git clone ${{ secrets.GIT_OPS_REPO }}
+          cd git-ops-ArgoCD
+
+      - name: Update Deployment YAML
+        run: |
+          cd portal-app/app-Frontend-kubernetes
+          sed -i "s|\(image: .*\):.*|\1:${{ env.DATE }}|" deployment.yaml
+
+      - name: Commit and Push to GitOps Repo
+        run: |
+          git config user.name "${{ GIT_USERNAME }}"
+          git config user.email "${{ GIT_EMAIL }}"
+          git add .
+          git commit -m "Update image to ${{ env.DATE }}"
+          git push 
+
+
+
+
+
 ############################## Notifications #######################################
     ### 🚨 Send Slack Alert on Failure
       - name: Send Slack Alert on Failure
