@@ -161,12 +161,12 @@ jobs:
       - name: Clone GitOps Repo
         run: |
           git clone ${{ secrets.GIT_OPS_REPO }}
-          cd git-ops-ArgoCD
-          ls -R
+          # cd git-ops-ArgoCD
+          # ls -R
 
       - name: Update Deployment YAML
         run: |
-          cd portal-app/app-Frontend-kubernetes
+          cd git-ops-ArgoCD/portal-app/app-Frontend-kubernetes
           ls
           sed -i "s|\(image: .*\):.*|\1:${{ env.DATE }}|" deployment.yml
 
