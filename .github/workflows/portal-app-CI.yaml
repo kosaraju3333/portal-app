@@ -170,8 +170,8 @@ jobs:
 
       - name: Commit and Push to GitOps Repo
         run: |
-          git config user.name "${{ GIT_USERNAME }}"
-          git config user.email "${{ GIT_EMAIL }}"
+          git config user.name "${{ secrets.GIT_USERNAME }}"
+          git config user.email "${{ secrets.GIT_EMAIL }}"
           git add .
           git commit -m "Update image to ${{ env.DATE }}"
           git push 
