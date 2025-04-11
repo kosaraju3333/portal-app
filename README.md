@@ -121,7 +121,6 @@ Slack integration is configured to notify build status (success/failure) after e
 
 - **EKS Cluster**
     ![Screenshot 2025-04-11 at 3 24 12 PM](https://github.com/user-attachments/assets/f88d9701-2378-4887-b653-3e9fe76d457f)
-    ![Screenshot 2025-04-11 at 5 09 18 PM](https://github.com/user-attachments/assets/a57da720-5f1a-483a-9aa2-74fd67089958)
     ![Screenshot 2025-04-11 at 5 10 50 PM](https://github.com/user-attachments/assets/285c3d6c-cea8-4e22-bcf7-af128666fdde)
 
   
@@ -162,7 +161,11 @@ Slack integration is configured to notify build status (success/failure) after e
     ![Screenshot 2025-04-11 at 5 24 36 PM](https://github.com/user-attachments/assets/d3bc7e2d-df10-4357-a5fe-42337d46c942)
     - **Exposed portal-app UI and ArgoCD UI through AWS Loadbalancer Controller with ingress resource**
     ![Screenshot 2025-04-11 at 5 25 48 PM](https://github.com/user-attachments/assets/2fb27595-d4bf-4ec9-9330-f193a34d1f40)
- 
+    ![Screenshot 2025-04-11 at 5 09 18 PM](https://github.com/user-attachments/assets/cbf82e30-cc77-4040-b7c2-13c3138ddfba)
+
+  - **Application Dashboard**
+    ![Screenshot 2025-04-11 at 5 30 08 PM](https://github.com/user-attachments/assets/28563a8e-5681-4a86-9426-b62ac8d9329e)
+
   - **Slack Notifications**
     ![Screenshot 2025-04-11 at 5 15 19 PM](https://github.com/user-attachments/assets/ad67984f-c670-484f-bd63-22a32aad8d0f)
 
