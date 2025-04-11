@@ -56,9 +56,9 @@ Application Overview:
 - This is a simple signup system involves users registering on a platform by providing their details, which are then stored in a Postgres database
 User Signup Process
   1. User Input: The user fills out a signup form with details such as:
-      a. Name
-      b. Email
-      c. Password
+      **a. Name
+      **b. Email
+      **c. Password
   2. Validation:
       a. Check if required fields are filled.
       b. Validate email format and ensure its unique.
