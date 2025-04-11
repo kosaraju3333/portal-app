@@ -6,8 +6,8 @@ on:
       - "master"
 
 jobs:
-  portal-app-CI:
-    name: Build and push portal-app image to DOCKER HUB
+  portal-app-CI-CD:
+    name: DevSecOps Ci/CD Pipeline
     runs-on: ubuntu-latest
 
     ### GIT code Checkout 
