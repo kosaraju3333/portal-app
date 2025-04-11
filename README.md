@@ -92,19 +92,24 @@ Slack integration is configured to notify build status (success/failure) after e
 ## 📷 Screenshots
 
 - **EKS Cluster**
-    - ![Screenshot 2025-04-11 at 3 24 12 PM](https://github.com/user-attachments/assets/801dd10d-9837-4fd5-8dbb-233e424e24d4)
-
+    ![Screenshot 2025-04-11 at 3 24 12 PM](https://github.com/user-attachments/assets/f88d9701-2378-4887-b653-3e9fe76d457f)
+  
 - Added AWS_EBS_CSI_Driver
-    - ![Screenshot 2025-04-11 at 3 22 09 PM](https://github.com/user-attachments/assets/e4365b21-893e-4c6f-8469-3b1b5f241963)
+    ![Screenshot 2025-04-11 at 3 22 09 PM](https://github.com/user-attachments/assets/e4365b21-893e-4c6f-8469-3b1b5f241963)
 
 - Installed AWS Load Balancer Controller
-    - ![Screenshot 2025-04-11 at 3 22 40 PM](https://github.com/user-attachments/assets/29cb3ed5-eeb5-4d5f-9550-4274c617681f)
-    - ![Screenshot 2025-04-11 at 3 22 59 PM](https://github.com/user-attachments/assets/54ead4a6-f412-4a39-8751-90fda7dc9f32)
+    ![Screenshot 2025-04-11 at 3 22 40 PM](https://github.com/user-attachments/assets/29cb3ed5-eeb5-4d5f-9550-4274c617681f)
+    ![Screenshot 2025-04-11 at 3 22 59 PM](https://github.com/user-attachments/assets/54ead4a6-f412-4a39-8751-90fda7dc9f32)
 
 - **DevSecOps CI/CD**
   - SonarQube
-    - ![Screenshot 2025-04-11 at 3 36 08 PM](https://github.com/user-attachments/assets/ccd31186-9c1c-49f9-a215-523ca9bcd308)
+      ![Screenshot 2025-04-11 at 3 36 08 PM](https://github.com/user-attachments/assets/ccd31186-9c1c-49f9-a215-523ca9bcd308)
+    
   - Nexus
-    - ![Screenshot 2025-04-11 at 3 36 51 PM](https://github.com/user-attachments/assets/9514f2ab-e459-456c-9560-62316f7d7d29)
- 
+      ![Screenshot 2025-04-11 at 3 36 51 PM](https://github.com/user-attachments/assets/9514f2ab-e459-456c-9560-62316f7d7d29)
+
+  - ArgoCD
+    - Exposed ArgoCD to external world via **Aws Loadbalancer Controller**
+      ![Screenshot 2025-04-11 at 3 53 14 PM](https://github.com/user-attachments/assets/d750ed08-938e-4932-abc9-ebde13f9de1c)
+
   
