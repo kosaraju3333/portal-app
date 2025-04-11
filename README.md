@@ -52,17 +52,32 @@ This project demonstrates a complete **DevSecOps CI/CD pipeline** for a Node.js 
 ## 📦 Application
 
 A sample Node.js web app deployed to an AWS EKS cluster and exposed to the internet using the **AWS Load Balancer Controller**.
-• Deployed a Node.js application and PostgreSQL database on a private AWS EKS cluster, using separate Kubernetes namespaces for logical isolation
-• Node.js App Namespace:
-▪ Configured Deployment, Service, Secrets, ConfigMap, and Horizontal Pod Autoscaler.
-▪ Applied Liveness & Readiness Probes, along with CPU/memory resource limits for
-container health and stability.
-▪ Exposed the app externally via AWS Load Balancer Controller and Ingress with routing
-rules
-• PostgreSQL Namespace:
-▪ Set up StatefulSet, Service, Secrets, and Liveness Probe for a production-ready DB deployment
-▪ Installed AWS EBS CSI Driver, and provisioned persistent storage using StorageClass, PersistentVolume, and PersistentVolumeClaim
-▪ Ensured secure intra-cluster communication between services using private networking and namespace-scoped configurations.
+Application Overview:
+- This is a simple signup system involves users registering on a platform by providing their details, which are then stored in a Postgres database
+User Signup Process
+  1. User Input: The user fills out a signup form with details such as:
+      a. Name
+      b. Email
+      c. Password
+  2. Validation:
+      a. Check if required fields are filled.
+      b. Validate email format and ensure its unique.
+      c. Ensure password meets
+
+  3. Database Entry:
+      a. Store the user’s data in the database.
+  4. Login & Authentication:
+      a. Once verified, users can log in using their credentials.
+     
+- Deployed a Node.js application and PostgreSQL database on a private AWS EKS cluster, using separate Kubernetes namespaces for logical isolation
+- Node.js App Namespace:
+    - Configured Deployment, Service, Secrets, ConfigMap, and Horizontal Pod Autoscaler.
+    - Applied Liveness & Readiness Probes, along with CPU/memory resource limits for container health and stability.
+    - Exposed the app externally via AWS Load Balancer Controller and Ingress with routing rules
+- PostgreSQL Namespace:
+    - Set up StatefulSet, Service, Secrets, and Liveness Probe for a production-ready DB deployment
+    - Installed AWS EBS CSI Driver, and provisioned persistent storage using StorageClass, PersistentVolume, and PersistentVolumeClaim
+    - Ensured secure intra-cluster communication between services using private networking and namespace-scoped configurations.
 
 ---
 
