@@ -52,8 +52,10 @@ This project demonstrates a complete **DevSecOps CI/CD pipeline** for a Node.js 
 ## 📦 Application
 
 A sample Node.js web app deployed to an AWS EKS cluster and exposed to the internet using the **AWS Load Balancer Controller**.
-Application Overview:
+
+**Application Overview:**
 - This is a simple signup system involves users registering on a platform by providing their details, which are then stored in a Postgres database
+  
 User Signup Process
   1. User Input: The user fills out a signup form with details such as:
       - Name
