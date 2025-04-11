@@ -160,7 +160,7 @@ jobs:
 
       - name: Clone GitOps Repo
         run: |
-          git clone ${{ secrets.GIT_OPS_REPO }}
+          git clone https://x-access-token:${{ secrets.GIT_TOKEN }}@${{ secrets.GIT_OPS_REPO }}
           # cd git-ops-ArgoCD
           # ls -R
 
