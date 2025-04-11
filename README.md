@@ -157,6 +157,12 @@ Slack integration is configured to notify build status (success/failure) after e
     - Portal-database
     ![Screenshot 2025-04-11 at 4 06 32 PM](https://github.com/user-attachments/assets/49af5644-7171-49ee-a198-501c7209c1b7)
 
+    - All resources in EKS cluster deployed through ArgoCD
+    ![Screenshot 2025-04-11 at 5 20 29 PM](https://github.com/user-attachments/assets/5f6dd915-2682-4065-8a44-0297c7f65cca)
+    ![Screenshot 2025-04-11 at 5 24 36 PM](https://github.com/user-attachments/assets/d3bc7e2d-df10-4357-a5fe-42337d46c942)
+    - **Exposed portal-app UI and ArgoCD UI through AWS Loadbalancer Controller with ingress resource**
+    ![Screenshot 2025-04-11 at 5 25 48 PM](https://github.com/user-attachments/assets/2fb27595-d4bf-4ec9-9330-f193a34d1f40)
+ 
   - **Slack Notifications**
     ![Screenshot 2025-04-11 at 5 15 19 PM](https://github.com/user-attachments/assets/ad67984f-c670-484f-bd63-22a32aad8d0f)
 
