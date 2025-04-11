@@ -166,7 +166,7 @@ jobs:
       - name: Update Deployment YAML
         run: |
           cd portal-app/app-Frontend-kubernetes
-          sed -i "s|\(image: .*\):.*|\1:${{ env.DATE }}|" deployment.yaml
+          sed -i "s|\(image: .*\):.*|\1:${{ env.DATE }}|" deployment.yml
 
       - name: Commit and Push to GitOps Repo
         run: |
@@ -175,9 +175,6 @@ jobs:
           git add .
           git commit -m "Update image to ${{ env.DATE }}"
           git push 
-
-
-
 
 
 ############################## Notifications #######################################
