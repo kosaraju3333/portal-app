@@ -52,6 +52,17 @@ This project demonstrates a complete **DevSecOps CI/CD pipeline** for a Node.js 
 ## 📦 Application
 
 A sample Node.js web app deployed to an AWS EKS cluster and exposed to the internet using the **AWS Load Balancer Controller**.
+• Deployed a Node.js application and PostgreSQL database on a private AWS EKS cluster, using separate Kubernetes namespaces for logical isolation
+• Node.js App Namespace:
+▪ Configured Deployment, Service, Secrets, ConfigMap, and Horizontal Pod Autoscaler.
+▪ Applied Liveness & Readiness Probes, along with CPU/memory resource limits for
+container health and stability.
+▪ Exposed the app externally via AWS Load Balancer Controller and Ingress with routing
+rules
+• PostgreSQL Namespace:
+▪ Set up StatefulSet, Service, Secrets, and Liveness Probe for a production-ready DB deployment
+▪ Installed AWS EBS CSI Driver, and provisioned persistent storage using StorageClass, PersistentVolume, and PersistentVolumeClaim
+▪ Ensured secure intra-cluster communication between services using private networking and namespace-scoped configurations.
 
 ---
 
@@ -61,5 +72,7 @@ Slack integration is configured to notify build status (success/failure) after e
 
 ---
 
-## 📁 Repository Structure
+## 📷 Screenshots (Optional)
+
+
 
