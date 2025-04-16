@@ -85,10 +85,10 @@ jobs:
 
 #################################### Build Phase ########################################
 
-    ### Downloading portal-app.js
-      - name: Downloading portal-app.js from AWS
-        run: |
-          aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
+    # ### Downloading portal-app.js
+    #   - name: Downloading portal-app.js from AWS
+    #     run: |
+    #       aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
 
     ### Building the app
       - name: Portal-app-Build
