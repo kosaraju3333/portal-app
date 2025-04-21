@@ -22,5 +22,19 @@ WRK- a HTTP benchmarcking Tool where we can genarate a load on pods.
  2: Now Generate a load to endpoint using below comand
   * `wrk -c 5 -t 5 -d 300s -H "Connection: Close" http://SERVICE_NAME:PORT_NUMBER`
 
+ brew install wrk        # macOS
+ * `sudo apt install wrk`    # Ubuntu (or build from source)
+ # 10 threads, 10 connections, 30 seconds duration
+ * `wrk -t10 -c10 -d30s https://your-url.com`
+
 
 ```docker run -id -p 3000:3000 --network portal-app-net -e HOST='postgresdb' -e PORT='5432' -e USER='postgres' -e PASSWORD:'postgres' -e DATABASE:'spontan' -e listen_PORT=3000 --name portal-app kosaraju333/portal-spontan-arg-env_1:V1```
+
+WRK- a HTTP benchmarcking Tool where we can genarate a load on pods.
+
+brew install wrk        # macOS
+sudo apt install wrk    # Ubuntu (or build from source)
+
+# 10 threads, 10 connections, 30 seconds duration
+wrk -t10 -c10 -d30s https://your-url.com
+
