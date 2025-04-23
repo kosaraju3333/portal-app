@@ -46,16 +46,11 @@ jobs:
     
       - name: 🔍 Dependency Vulnerability Scan (Node.js)
         run: |
-          pwd
-          # cd app-Frontend
-          # ls
-          # pwd
-          # ls
           trivy fs ./app-Frontend --exit-code 1 --severity HIGH,CRITICAL
 
       - name: 🔐 Secrets & FileSystem Vulnerability Scan
         run: |
-          trivy fs --scanners secret,vuln --exit-code 0 .
+          trivy fs --scanners secret,vuln ./app-Frontend --exit-code 0 .
 
       # - name: Trivy Dependency Scan
       #   uses: aquasecurity/trivy-action@0.28.0
