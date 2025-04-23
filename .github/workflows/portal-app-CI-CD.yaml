@@ -50,7 +50,7 @@ jobs:
           cd app-Frontend
           ls
           pwd
-          trivy fs --scan-type library /home/runner/work/portal-app/portal-app/app-Frontend --exit-code 1 --severity HIGH,CRITICAL .
+          trivy fs ./app-Frontend --exit-code 1 --severity HIGH,CRITICAL .
 
       - name: 🔐 Secrets & FileSystem Vulnerability Scan
         run: |
