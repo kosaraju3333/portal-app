@@ -50,7 +50,7 @@ jobs:
 
       - name: 🔐 Secrets & FileSystem Vulnerability Scan
         run: |
-          trivy fs --scanners secret --debug ./app-Frontend/portal-app.js --exit-code 0
+          trivy fs --scanners secret ./app-Frontend --exit-code 0
 
       # - name: Trivy Dependency Scan
       #   uses: aquasecurity/trivy-action@0.28.0
