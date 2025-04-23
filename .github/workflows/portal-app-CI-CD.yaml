@@ -50,6 +50,7 @@ jobs:
           cd app-Frontend
           ls
           pwd
+          ls
           trivy fs ./app-Frontend --exit-code 1 --severity HIGH,CRITICAL
 
       - name: 🔐 Secrets & FileSystem Vulnerability Scan
