@@ -28,6 +28,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+     ### Installing Trivy
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+
     ### Configuring AWS CLI access.
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
