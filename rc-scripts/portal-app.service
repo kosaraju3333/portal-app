@@ -1,0 +1,20 @@
+[Unit]
+Description=description about this service
+#After=network.target
+After=multi-user.target
+
+[Service]
+#Type=forking
+#Type=oneshot
+Type=simple
+User=ubuntu
+Group=ubuntu
+#WorkingDirectory=/home/ubuntu/
+ExecStart=pm2 start /home/ubuntu/portal-app/portal-app.js
+ExecStop=pm2 stop /home/ubuntu/portal-app/portal-app.js
+ExecRestart=pm2 restart /home/ubuntu/portal-app/portal-app.js
+RemainAfterExit=true
+#Restart=always
+
+[Install]
+WantedBy=multi-user.target
