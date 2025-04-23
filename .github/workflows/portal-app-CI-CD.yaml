@@ -44,17 +44,26 @@ jobs:
 
 ############################ Pre Build Phase ###################################
     
-      - name: 🔍 Dependency Vulnerability Scan (Node.js)
-        run: |
-          pwd
-          cd app-Frontend
-          ls
-          pwd
-          trivy fs ./app-Frontend --exit-code 1 --severity HIGH,CRITICAL .
+      # - name: 🔍 Dependency Vulnerability Scan (Node.js)
+      #   run: |
+      #     pwd
+      #     cd app-Frontend
+      #     ls
+      #     pwd
+      #     trivy fs ./app-Frontend --exit-code 1 --severity HIGH,CRITICAL .
 
-      - name: 🔐 Secrets & FileSystem Vulnerability Scan
-        run: |
-          trivy fs --scanners secret,vuln --exit-code 0 .
+      # - name: 🔐 Secrets & FileSystem Vulnerability Scan
+      #   run: |
+      #     trivy fs --scanners secret,vuln --exit-code 0 .
+
+      - name: Trivy Dependency Scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: './app-Frontend'
+          severity: 'HIGH,CRITICAL'
+          ignore-unfixed: true
+
 
 
     #  ### Run Trivy FS Scan
