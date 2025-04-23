@@ -37,15 +37,35 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
 ############################ Pre Build Phase ###################################
-    ### Run Trivy FS Scan
-      - name: Run Trivy FS Scan (Repository Dependencies)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          format: 'table'
-          exit-code: 1
-          severity: 'CRITICAL,HIGH' 
+    
+      - name: 🔍 Dependency Vulnerability Scan (Node.js)
+        run: |
+          trivy fs --scan-type library --exit-code 1 --severity HIGH,CRITICAL .
+
+      - name: 🔐 Secrets & FileSystem Vulnerability Scan
+        run: |
+          trivy fs --scanners secret,vuln --exit-code 0 .
+
+
+    #  ### Run Trivy FS Scan
+    #   - name: Dependency Vulnerability Scan
+    #     uses: aquasecurity/trivy-action@0.28.0
+    #     with:
+    #       scan-type: 'library'
+    #       ignore-unfixed: true
+    #       format: 'table'
+    #       exit-code: 1
+    #       severity: 'CRITICAL,HIGH'
+
+    # ### Run Trivy FS Scan
+    #   - name: Run Trivy FS Scan (Repository Dependencies)
+    #     uses: aquasecurity/trivy-action@0.28.0
+    #     with:
+    #       scan-type: 'fs'
+    #       ignore-unfixed: true
+    #       format: 'table'
+    #       exit-code: 1
+    #       severity: 'CRITICAL,HIGH' 
 
     # ### SonarQube Scane for code analysis
     #   - name: Code analysis
