@@ -48,9 +48,9 @@ jobs:
         run: |
           trivy fs ./app-Frontend --exit-code 1 --severity HIGH,CRITICAL
 
-      - name: 🔐 Secrets & FileSystem Vulnerability Scan
-        run: |
-          trivy fs --scanners secret ./app-Frontend --exit-code 0
+      # - name: 🔐 Secrets & FileSystem Vulnerability Scan
+      #   run: |
+      #     trivy fs --scanners secret ./app-Frontend --exit-code 0
 
       # - name: Trivy Dependency Scan
       #   uses: aquasecurity/trivy-action@0.28.0
@@ -61,26 +61,15 @@ jobs:
       #     ignore-unfixed: true
 
 
-
-#     #  ### Run Trivy FS Scan
-#     #   - name: Dependency Vulnerability Scan
-#     #     uses: aquasecurity/trivy-action@0.28.0
-#     #     with:
-#     #       scan-type: 'library'
-#     #       ignore-unfixed: true
-#     #       format: 'table'
-#     #       exit-code: 1
-#     #       severity: 'CRITICAL,HIGH'
-
-#     # ### Run Trivy FS Scan
-#     #   - name: Run Trivy FS Scan (Repository Dependencies)
-#     #     uses: aquasecurity/trivy-action@0.28.0
-#     #     with:
-#     #       scan-type: 'fs'
-#     #       ignore-unfixed: true
-#     #       format: 'table'
-#     #       exit-code: 1
-#     #       severity: 'CRITICAL,HIGH' 
+    ### Run Trivy FS Scan
+      - name: Run Trivy FS Scan (Repository Dependencies)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          exit-code: 1
+          severity: 'CRITICAL,HIGH' 
 
 #     # ### SonarQube Scane for code analysis
 #     #   - name: Code analysis
@@ -125,122 +114,122 @@ jobs:
 #     #     run: |
 #     #       aws s3 cp s3://portal-spontansolutions/secrets/portal-app.js app-Frontend/
 
-#     ### Building the app
-#       - name: Portal-app-Build
-#         run: |
-#           cd app-Frontend
-#           npm init -y
-#           npm i express.js body-parser knex pg nodemon
+    ### Building the app
+      - name: Portal-app-Build
+        run: |
+          cd app-Frontend
+          npm init -y
+          npm i express.js body-parser knex pg nodemon
 
-#     ### Set Date Variable 
-#       - name: Set Date Variable
-#         run: echo "DATE=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
-
-
-#     ### Creating Artifact
-#       - name: Creating Artifact
-#         run: |
-#           cd app-Frontend
-#           tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js
-
-#     # ### Uploading Artifact to Nexus
-#     #   - name: Upload to Nexus
-#     #     run: |
-#     #       curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
-#     #       --upload-file app-Frontend/portal-app-$DATE.tar.gz \
-#     #       https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-$DATE.tar.gz
-
-#     # ### Uploading Artifact to S3
-#     #   - name: Uploading Artifact to S3 Bucket
-#     #     run: |
-#     #       cd app-Frontend
-#     #       aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
-
-#     ### Build Docker Image
-#       - name: Build Portal-app Docker Image
-#         uses: docker/build-push-action@v6
-#         with:
-#           context: app-Frontend
-#           dockerfile: Dockerfile
-#           push: false
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
-
-#       - name: Scan local Docker image with Trivy
-#         uses: aquasecurity/trivy-action@0.28.0
-#         with:
-#           image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
-#           format: 'table'
-#           ignore-unfixed: true
-#           exit-code: 0
-#           severity: 'CRITICAL,HIGH'
-
-#     ### Docker Login
-#       - name: Login Docker Hub
-#         uses: docker/login-action@v3
-#         with:
-#           username: ${{ secrets.DOCKERHUB_USERNAME }}
-#           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-#     ### Push to Docker Hub
-#       - name: Push Portal-app to Docker Hub
-#         uses: docker/build-push-action@v6
-#         with:
-#           context: app-Frontend
-#           dockerfile: Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+    ### Set Date Variable 
+      - name: Set Date Variable
+        run: echo "DATE=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
 
 
-# ############################## CD ###############################################
+    ### Creating Artifact
+      - name: Creating Artifact
+        run: |
+          cd app-Frontend
+          tar -czf portal-app-$DATE.tar.gz node_modules package.json public portal-app.js
 
-#       - name: Clone GitOps Repo
-#         run: |
-#           git clone https://x-access-token:${{ secrets.GIT_TOKEN }}@${{ secrets.GIT_OPS_REPO }}
-#           # cd git-ops-ArgoCD
-#           # ls -R
+    # ### Uploading Artifact to Nexus
+    #   - name: Upload to Nexus
+    #     run: |
+    #       curl -u ${{ secrets.NEXUS_USER }}:${{ secrets.NEXUS_PASS }} \
+    #       --upload-file app-Frontend/portal-app-$DATE.tar.gz \
+    #       https://nexus.spontansolutions.com/repository/portal-app-artifacts/portal-app-$DATE.tar.gz
 
-#       - name: Update Deployment YAML
-#         run: |
-#           cd git-ops-ArgoCD/portal-app/app-Frontend-kubernetes
-#           ls
-#           sed -i "s|\(image: .*\):.*|\1:${{ env.DATE }}|" deployment.yml
+    # ### Uploading Artifact to S3
+    #   - name: Uploading Artifact to S3 Bucket
+    #     run: |
+    #       cd app-Frontend
+    #       aws s3 cp portal-app-$DATE.tar.gz s3://portal-app-spontansolutions/github-actions/
 
-#       - name: Commit and Push to GitOps Repo
-#         run: |
-#           git config user.name "${{ secrets.GIT_USERNAME }}"
-#           git config user.email "${{ secrets.GIT_EMAIL }}"
-#           git add .
-#           git commit -m "Update image to ${{ env.DATE }}"
-#           git push origin master
-#         working-directory: git-ops-ArgoCD
+    ### Build Docker Image
+      - name: Build Portal-app Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: app-Frontend
+          dockerfile: Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+
+      - name: Scan local Docker image with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
+          format: 'table'
+          ignore-unfixed: true
+          exit-code: 0
+          severity: 'CRITICAL,HIGH'
+
+    ### Docker Login
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    ### Push to Docker Hub
+      - name: Push Portal-app to Docker Hub
+        uses: docker/build-push-action@v6
+        with:
+          context: app-Frontend
+          dockerfile: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/portal-app:${{ env.DATE }}
 
 
-# ############################## Notifications #######################################
-#     ### 🚨 Send Slack Alert on Failure
-#       - name: Send Slack Alert on Failure
-#         if: failure()
-#         run: |
-#           curl -X POST -H 'Content-type: application/json' --data '{
-#             "attachments": [
-#               {
-#                 "color": "#FF0000",
-#                 "title": "🚨 CI/CD Pipeline Failed!",
-#                 "text": "❌ Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-#               }
-#             ]
-#           }' ${{ secrets.SLACK_WEBHOOK_URL }}
+############################## CD ###############################################
 
-#     ### ✅ Send Slack Alert on Success
-#       - name: Send Slack Alert on Success
-#         if: success()
-#         run: |
-#           curl -X POST -H 'Content-type: application/json' --data '{
-#             "attachments": [
-#               {
-#                 "color": "#36A64F",
-#                 "title": "✅ CI/CD Pipeline Succeeded!",
-#                 "text": "🎉 Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-#               }
-#             ]
-#           }' ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Clone GitOps Repo
+        run: |
+          git clone https://x-access-token:${{ secrets.GIT_TOKEN }}@${{ secrets.GIT_OPS_REPO }}
+          # cd git-ops-ArgoCD
+          # ls -R
+
+      - name: Update Deployment YAML
+        run: |
+          cd git-ops-ArgoCD/portal-app/app-Frontend-kubernetes
+          ls
+          sed -i "s|\(image: .*\):.*|\1:${{ env.DATE }}|" deployment.yml
+
+      - name: Commit and Push to GitOps Repo
+        run: |
+          git config user.name "${{ secrets.GIT_USERNAME }}"
+          git config user.email "${{ secrets.GIT_EMAIL }}"
+          git add .
+          git commit -m "Update image to ${{ env.DATE }}"
+          git push origin master
+        working-directory: git-ops-ArgoCD
+
+
+############################## Notifications #######################################
+    ### 🚨 Send Slack Alert on Failure
+      - name: Send Slack Alert on Failure
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "attachments": [
+              {
+                "color": "#FF0000",
+                "title": "🚨 CI/CD Pipeline Failed!",
+                "text": "❌ Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              }
+            ]
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    ### ✅ Send Slack Alert on Success
+      - name: Send Slack Alert on Success
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{
+            "attachments": [
+              {
+                "color": "#36A64F",
+                "title": "✅ CI/CD Pipeline Succeeded!",
+                "text": "🎉 Repository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCheck logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              }
+            ]
+          }' ${{ secrets.SLACK_WEBHOOK_URL }}
 
