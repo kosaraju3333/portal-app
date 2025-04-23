@@ -46,7 +46,8 @@ jobs:
     
       - name: 🔍 Dependency Vulnerability Scan (Node.js)
         run: |
-          trivy fs --scan-type library ./app-Frontend --exit-code 1 --severity HIGH,CRITICAL .
+          cd app-Frontend
+          trivy fs --scan-type library . --exit-code 1 --severity HIGH,CRITICAL .
 
       - name: 🔐 Secrets & FileSystem Vulnerability Scan
         run: |
