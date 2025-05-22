@@ -91,6 +91,9 @@ Slack integration is configured to notify build status (success/failure) after e
 
 ## 📷 Screenshots
 
+- **AWS architecture diagram**
+    ![Screenshot 2025-04-26 at 8 38 59 PM](https://github.com/user-attachments/assets/f7371d0d-a21e-4d99-b471-f743d580eb94)
+
 - **EKS Cluster**
     ![Screenshot 2025-04-11 at 3 24 12 PM](https://github.com/user-attachments/assets/f88d9701-2378-4887-b653-3e9fe76d457f)
     ![Screenshot 2025-04-11 at 5 10 50 PM](https://github.com/user-attachments/assets/285c3d6c-cea8-4e22-bcf7-af128666fdde)
